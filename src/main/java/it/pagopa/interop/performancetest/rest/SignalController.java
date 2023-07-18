@@ -28,7 +28,7 @@ public class SignalController {
 
     @GetMapping(value = "/pull-signal")
     public Mono<ResponseEntity<Flux<SignalDTO>>>pullSignal(
-            @RequestParam(value="eServiceId", required= true) String eserviceId,
+            @RequestParam(value="eserviceId", required= true) String eserviceId,
             @RequestParam(value="indexSignal", required= true) Long indexSignal
             ) {
 

@@ -15,7 +15,11 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.TransactPutItemEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.TransactWriteItemsEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Repository
@@ -38,6 +42,7 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
 
                     signal.setSignalId(UUID.randomUUID().toString());
                     signal.setIndexSignal(indexSignalCounter.getMaxIndexSignal() + 1);
+                    signal.setTmsInsert(Instant.now());
 
                     this.addPutTransaction(builder, signal);
                     this.indexSignalCounterDAO.updateWithTransaction(builder, indexSignalCounter);
@@ -49,7 +54,10 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
     @Override
     public Flux<Signal> pullSignal(Long indexSignal, String eserviceId, String signalType, String objectType) {
         QueryConditional conditional = CONDITION_EQUAL_TO.apply(keyBuild(eserviceId, indexSignal));
-        return this.getByFilter(conditional,null, null,null);
+        Map<String, AttributeValue> attributes = new HashMap<>();
+        attributes.put(":eserviceId", AttributeValue.builder().s(eserviceId).build());
+        attributes.put(":indexSignal", AttributeValue.builder().s(String.valueOf(indexSignal)).build());
+        return this.getByFilter(conditional,null, attributes,null);
     }
 
 
