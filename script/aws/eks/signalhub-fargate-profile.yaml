@@ -22,6 +22,7 @@ fargateProfiles:
       # All workloads in the "kube-system" Kubernetes namespace will be
       # scheduled onto Fargate:
       - namespace: kube-system
+      - namespace: ack-system
   - name: fp-dev
     selectors:
       # All workloads in the "dev" Kubernetes namespace matching the following

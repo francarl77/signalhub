@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: signalhub-service
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: signalhub
+
