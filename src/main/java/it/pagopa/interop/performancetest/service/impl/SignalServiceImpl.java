@@ -1,10 +1,11 @@
 package it.pagopa.interop.performancetest.service.impl;
 
 
-import it.pagopa.interop.performancetest.middleware.db.dao.impl.SignalDAO;
-import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
 import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.mapper.SignalMapper;
+import it.pagopa.interop.performancetest.middleware.db.dao.SignalDAO;
+import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
+import it.pagopa.interop.performancetest.service.SignalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,14 @@ import java.time.Duration;
 
 @Slf4j
 @Service
-public class SignalServiceImpl implements it.pagopa.interop.performancetest.service.SignalService {
+public class SignalServiceImpl implements SignalService {
 
     @Autowired
     private SignalDAO signalDAO;
 
     @Override
     public Mono<SignalDTO> pushSignal(Signal signal){
+        signal.setIndexSignal(null);
         return this.signalDAO.pushSignal(signal)
                 .map(SignalMapper::signalDtoMapper)
                 .delayElement(Duration.ofMillis(1000L));

@@ -16,6 +16,7 @@ public class AwsConfigs {
     private String bucketName;
     private String endpointUrl;
     private String dynamodbSignalTable;
+    private String dynamodbIndexSignalCounterTable;
     private Boolean useAwsKeyspace;
 
     private String accessKeyId;
