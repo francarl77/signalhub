@@ -53,7 +53,7 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
 
     @Override
     public Flux<Signal> pullSignal(Long indexSignal, String eserviceId, String signalType, String objectType) {
-        QueryConditional conditional = CONDITION_GREATHER_THAN.apply(keyBuild(eserviceId,indexSignal-1));
+        QueryConditional conditional = CONDITION_GREATHER_THAN_EQUAL_TO.apply(keyBuild(eserviceId,indexSignal));
 
         return this.getByFilter(conditional,null, null,null);
     }

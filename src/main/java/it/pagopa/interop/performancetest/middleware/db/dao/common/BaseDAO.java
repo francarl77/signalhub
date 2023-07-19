@@ -36,7 +36,7 @@ public abstract class BaseDAO<T> {
     protected static final Function<Key, QueryConditional> CONDITION_EQUAL_TO = QueryConditional::keyEqualTo;
     protected static final Function<Key, QueryConditional> CONDITION_BEGINS_WITH = QueryConditional::sortBeginsWith;
     protected static final Function<Keys, QueryConditional> CONDITION_BETWEEN = keys -> QueryConditional.sortBetween(keys.getFrom(), keys.getTo());
-    protected static final Function<Key, QueryConditional> CONDITION_GREATHER_THAN = QueryConditional::sortGreaterThan;
+    protected static final Function<Key, QueryConditional> CONDITION_GREATHER_THAN_EQUAL_TO = QueryConditional::sortGreaterThanOrEqualTo;
 
     private final Class<T> tClass;
 
