@@ -8,11 +8,6 @@ metadata:
   region: eu-south-1
   version: "1.27"
   
-# nodeGroups:
-  # - name: ng-1
-    # instanceType: m5.large
-    # desiredCapacity: 1
-
 fargateProfiles:
   - name: fp-default
     selectors:
@@ -22,7 +17,6 @@ fargateProfiles:
       # All workloads in the "kube-system" Kubernetes namespace will be
       # scheduled onto Fargate:
       - namespace: kube-system
-      - namespace: ack-system
   - name: fp-dev
     selectors:
       # All workloads in the "dev" Kubernetes namespace matching the following

@@ -4,7 +4,7 @@ metadata:
   name: signalhub-ingress
   annotations:
     kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/load-balancer-name: apg2
+    alb.ingress.kubernetes.io/load-balancer-name: signalhub-lb
     alb.ingress.kubernetes.io/target-type: ip
   labels:
     app: signalhub
