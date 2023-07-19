@@ -36,6 +36,7 @@ public abstract class BaseDAO<T> {
     protected static final Function<Key, QueryConditional> CONDITION_EQUAL_TO = QueryConditional::keyEqualTo;
     protected static final Function<Key, QueryConditional> CONDITION_BEGINS_WITH = QueryConditional::sortBeginsWith;
     protected static final Function<Keys, QueryConditional> CONDITION_BETWEEN = keys -> QueryConditional.sortBetween(keys.getFrom(), keys.getTo());
+    protected static final Function<Key, QueryConditional> CONDITION_GREATHER_THAN = QueryConditional::sortGreaterThan;
 
     private final Class<T> tClass;
 
@@ -133,7 +134,6 @@ public abstract class BaseDAO<T> {
     protected Flux<T> getByFilter(QueryConditional conditional, String index, Map<String, AttributeValue> values, String filterExpression){
         return getByFilter(conditional, index, values, filterExpression, null);
     }
-
 
     protected Key keyBuild(String partitionKey,String sortKey){
         Key.Builder builder = Key.builder().partitionValue(partitionKey);

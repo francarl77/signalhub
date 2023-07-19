@@ -53,11 +53,9 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
 
     @Override
     public Flux<Signal> pullSignal(Long indexSignal, String eserviceId, String signalType, String objectType) {
-        QueryConditional conditional = CONDITION_EQUAL_TO.apply(keyBuild(eserviceId, indexSignal));
-        Map<String, AttributeValue> attributes = new HashMap<>();
-        attributes.put(":eserviceId", AttributeValue.builder().s(eserviceId).build());
-        attributes.put(":indexSignal", AttributeValue.builder().s(String.valueOf(indexSignal)).build());
-        return this.getByFilter(conditional,null, attributes,null);
+        QueryConditional conditional = CONDITION_GREATHER_THAN.apply(keyBuild(eserviceId,indexSignal-1));
+
+        return this.getByFilter(conditional,null, null,null);
     }
 
 

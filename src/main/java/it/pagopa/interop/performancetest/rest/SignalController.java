@@ -32,7 +32,7 @@ public class SignalController {
             @RequestParam(value="indexSignal", required= true) Long indexSignal
             ) {
 
-        return Mono.just(this.signalServiceImpl.pullSignal(indexSignal, eserviceId,null,null)).map(ResponseEntity::ok);
+        return Mono.just(this.signalServiceImpl.pullSignal(indexSignal, eserviceId,null,null).map(item -> item)).map(ResponseEntity::ok);
     }
 
 
