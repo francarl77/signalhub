@@ -38,11 +38,13 @@ public class AwsServicesClientsConfig {
             if( StringUtils.isNotBlank( profileName ) ) {
                 builder.credentialsProvider( ProfileCredentialsProvider.create( profileName ) );
             } else {
+                log.debug("Using WebIdentityTokenFileCredentialsProvider");
                 builder.credentialsProvider( WebIdentityTokenFileCredentialsProvider.create() );
             }
 
             String regionCode = props.getRegionCode();
             if( StringUtils.isNotBlank( regionCode )) {
+                log.debug("Setting region to: {}", regionCode);
                 builder.region( Region.of( regionCode ));
             }
 
