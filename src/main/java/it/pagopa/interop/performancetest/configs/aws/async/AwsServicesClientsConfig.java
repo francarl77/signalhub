@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.WebIdentityTokenFileCredentialsProvider;
 import software.amazon.awssdk.awscore.client.builder.AwsClientBuilder;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
@@ -35,7 +36,9 @@ public class AwsServicesClientsConfig {
 
             String profileName = props.getProfileName();
             if( StringUtils.isNotBlank( profileName ) ) {
-                builder.credentialsProvider( ProfileCredentialsProvider.create( profileName ));
+                builder.credentialsProvider( ProfileCredentialsProvider.create( profileName ) );
+            } else {
+                builder.credentialsProvider( WebIdentityTokenFileCredentialsProvider.create() );
             }
 
             String regionCode = props.getRegionCode();
@@ -49,6 +52,7 @@ public class AwsServicesClientsConfig {
             }
 
         }
+
 
         return builder.build();
     }

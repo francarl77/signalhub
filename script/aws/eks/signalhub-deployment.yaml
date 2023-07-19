@@ -20,5 +20,8 @@ spec:
           image: ghcr.io/francarl77/signalhub:latest
           ports:
             - containerPort: 8080
+          env:
+            - name: AWS_REGION_CODE
+              value: eu-south-1
       imagePullSecrets:
         - name: ghcr-login-secret
