@@ -12,4 +12,14 @@ public class PerformanceTestApplication {
 		SpringApplication.run(PerformanceTestApplication.class, args);
 	}
 
+	@RestController
+	public static class HomeController {
+
+		@GetMapping("")
+		public String home() {
+			return "Ok";
+		}
+
+	}
+
 }
