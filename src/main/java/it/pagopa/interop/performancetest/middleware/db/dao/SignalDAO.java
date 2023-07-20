@@ -8,4 +8,5 @@ public interface SignalDAO {
 
     Mono<Signal> pushSignal(Signal signal);
     Flux<Signal> pullSignal(Long indexSignal, String eserviceId, String signalType, String objectType);
+    Flux<Signal> pullEqualToSignal(Long indexSignal, String eserviceId, String signalType, String objectType);
 }

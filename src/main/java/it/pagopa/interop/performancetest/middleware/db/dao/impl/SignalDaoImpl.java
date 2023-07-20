@@ -58,6 +58,15 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
         return this.getByFilter(conditional,null, null,null);
     }
 
+    @Override
+    public Flux<Signal> pullEqualToSignal(Long indexSignal, String eserviceId, String signalType, String objectType) {
+        QueryConditional conditional = CONDITION_EQUAL_TO.apply(keyBuild(eserviceId,(Long)null));
+
+        return this.getByFilter(conditional,null, null,null)
+                .parallel().filter(item -> item.getIndexSignal() >= indexSignal)
+                .sequential();
+    }
+
 
     private void addPutTransaction(TransactWriteItemsEnhancedRequest.Builder builder, Signal signal) {
         TransactPutItemEnhancedRequest<Signal> updateItemEnhancedRequest =
