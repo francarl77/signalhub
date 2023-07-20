@@ -35,5 +35,14 @@ public class SignalController {
         return Mono.just(this.signalServiceImpl.pullSignal(indexSignal, eserviceId,null,null).map(item -> item)).map(ResponseEntity::ok);
     }
 
+    @GetMapping(value = "/signal-pull")
+    public Mono<ResponseEntity<Flux<SignalDTO>>>pullEqualToSignal(
+            @RequestParam(value="eserviceId", required= true) String eserviceId,
+            @RequestParam(value="indexSignal", required= true) Long indexSignal
+    ) {
+
+        return Mono.just(this.signalServiceImpl.pullSignal(indexSignal, eserviceId,null,null).map(item -> item)).map(ResponseEntity::ok);
+    }
+
 
 }
