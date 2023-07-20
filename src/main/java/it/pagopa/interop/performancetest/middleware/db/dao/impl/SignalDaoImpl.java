@@ -12,14 +12,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
-import software.amazon.awssdk.enhanced.dynamodb.model.TransactPutItemEnhancedRequest;
-import software.amazon.awssdk.enhanced.dynamodb.model.TransactWriteItemsEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
-import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Repository
@@ -34,20 +29,14 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
 
     @Override
     public Mono<Signal> pushSignal(Signal signal) {
-        return this.indexSignalCounterDAO.get(signal.getEserviceId())
-                .switchIfEmpty(Mono.just(new IndexSignalCounter(signal.getEserviceId(), -1L)))
+        return  this.indexSignalCounterDAO.updateWithTransaction(new IndexSignalCounter(signal.getEserviceId(), 0L))
                 .flatMap(indexSignalCounter ->  {
-                    TransactWriteItemsEnhancedRequest.Builder builder =
-                            TransactWriteItemsEnhancedRequest.builder();
 
                     signal.setSignalId(UUID.randomUUID().toString());
                     signal.setIndexSignal(indexSignalCounter.getMaxIndexSignal() + 1);
                     signal.setTmsInsert(Instant.now());
 
-                    this.addPutTransaction(builder, signal);
-                    this.indexSignalCounterDAO.updateWithTransaction(builder, indexSignalCounter);
-
-                    return Mono.fromFuture(super.putWithTransact(builder.build()).thenApply(item -> signal));
+                    return Mono.fromFuture(super.put(signal));
                 });
     }
 
@@ -63,16 +52,9 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
         QueryConditional conditional = CONDITION_EQUAL_TO.apply(keyBuild(eserviceId,(Long)null));
 
         return this.getByFilter(conditional,null, null,null)
-                .parallel().filter(item -> item.getIndexSignal() >= indexSignal)
+                .parallel()
+                .filter(item -> item.getIndexSignal() >= indexSignal)
                 .sequential();
     }
 
-
-    private void addPutTransaction(TransactWriteItemsEnhancedRequest.Builder builder, Signal signal) {
-        TransactPutItemEnhancedRequest<Signal> updateItemEnhancedRequest =
-                TransactPutItemEnhancedRequest.builder(Signal.class)
-                        .item(signal)
-                        .build();
-        builder.addPutItem(this.dynamoTable, updateItemEnhancedRequest);
-    }
 }

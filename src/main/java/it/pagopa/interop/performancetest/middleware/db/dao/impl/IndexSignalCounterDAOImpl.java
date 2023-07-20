@@ -26,12 +26,9 @@ public class IndexSignalCounterDAOImpl extends BaseDAO<IndexSignalCounter> imple
     }
 
     @Override
-    public void updateWithTransaction(TransactWriteItemsEnhancedRequest.Builder builder, IndexSignalCounter counter) {
+    public Mono<IndexSignalCounter> updateWithTransaction(IndexSignalCounter counter) {
         counter.setMaxIndexSignal(null);
-        TransactUpdateItemEnhancedRequest<IndexSignalCounter> updateItemEnhancedRequest =
-                TransactUpdateItemEnhancedRequest.builder(IndexSignalCounter.class)
-                        .item(counter)
-                        .build();
-        builder.addUpdateItem(this.dynamoTable, updateItemEnhancedRequest);
+
+        return Mono.fromFuture(super.update(counter).thenApply(item -> item));
     }
 }

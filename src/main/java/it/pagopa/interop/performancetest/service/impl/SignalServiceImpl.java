@@ -24,6 +24,7 @@ public class SignalServiceImpl implements SignalService {
     @Override
     public Mono<SignalDTO> pushSignal(Signal signal){
         signal.setIndexSignal(null);
+
         return this.signalDAO.pushSignal(signal)
                 .map(SignalMapper::signalDtoMapper)
                 .delayElement(Duration.ofMillis(1000L));
