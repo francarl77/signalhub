@@ -22,6 +22,9 @@ public class Signal {
     public static final String COL_OBJECT_TYPE = "objectType";
     public static final String COL_SIGNAL_TYPE = "signalType";
     public static final String COL_TMS_INSERT = "tmsInsert";
+    public static final String COL_NODE_PRODUCER = "nodeProducer";
+    public static final String COL_NODE_CONSUMER = "nodeConsumer";
+
 
     @Getter(onMethod = @__({@DynamoDbPartitionKey, @DynamoDbAttribute(COL_ESERVICEID)}))
     private String eserviceId;

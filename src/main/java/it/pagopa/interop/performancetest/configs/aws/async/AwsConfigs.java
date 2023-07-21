@@ -17,7 +17,9 @@ public class AwsConfigs {
     private String endpointUrl;
     private String dynamodbSignalTable;
     private String dynamodbIndexSignalCounterTable;
+    private String podNameMs;
     private Boolean useAwsKeyspace;
+
 
     private String accessKeyId;
     private String secretAccessKey;

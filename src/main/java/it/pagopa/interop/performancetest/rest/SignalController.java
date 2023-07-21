@@ -3,6 +3,7 @@ package it.pagopa.interop.performancetest.rest;
 import it.pagopa.interop.performancetest.service.impl.SignalServiceImpl;
 import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.mapper.SignalMapper;
+import it.pagopa.interop.performancetest.configs.aws.async.AwsConfigs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +18,9 @@ import reactor.core.publisher.Mono;
 @RequestMapping( value = "/interop-signal-hub")
 public class SignalController {
 
-    @Value("${POD_NAME_MS}")
-    private String namePod;
+    @Autowired
+    private AwsConfigs awsConfigs;
+
     //POST: interop-signal-hub/push-signal + BODY
     //GET : interop-signal-hub/pull-signal?eserviceid=abc&indexSignal=1234
     @Autowired
@@ -28,7 +30,7 @@ public class SignalController {
     public Mono<ResponseEntity<SignalDTO>> pushSignal(
             @RequestBody() SignalDTO signalDto
     ) {
-        log.debug("Name Of Pod : {}", namePod);
+        log.debug("Name Of POD : {}", awsConfigs.getPodNameMs());
         return this.signalServiceImpl.pushSignal(SignalMapper.toSignalFromDto(signalDto)).map(ResponseEntity::ok);
     }
 

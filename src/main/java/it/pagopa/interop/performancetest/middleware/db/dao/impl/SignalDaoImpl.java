@@ -33,7 +33,7 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
                 .flatMap(indexSignalCounter ->  {
 
                     signal.setSignalId(UUID.randomUUID().toString());
-                    signal.setIndexSignal(indexSignalCounter.getMaxIndexSignal() + 1);
+                    signal.setIndexSignal(indexSignalCounter.getMaxIndexSignal());
                     signal.setTmsInsert(Instant.now());
 
                     return Mono.fromFuture(super.put(signal));
