@@ -77,6 +77,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.awspring.cloud</groupId>
+			<artifactId>spring-cloud-aws-messaging</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.awspring.cloud</groupId>
+			<artifactId>spring-cloud-aws-context</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>de.idealo.spring</groupId>
+			<artifactId>spring-cloud-stream-binder-sqs</artifactId>
+			<version>1.9.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
