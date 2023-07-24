@@ -1,15 +1,13 @@
 name: "CI Develop"
 
 on:
-  push:
-    branches:
-      - '**'
-      - '!main'
-      - '!master'
-    paths:
-      - '**'
   workflow_dispatch:
-
+    inputs:
+      deployCommit:
+        description: 'Commit SHA1 to deploy'
+        required: true
+        default: 'undefined'
+        type: string
 
 jobs:
   build-and-push:
@@ -20,6 +18,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.deployCommit }}
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
