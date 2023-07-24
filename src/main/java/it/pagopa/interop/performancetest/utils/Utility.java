@@ -19,8 +19,16 @@ public class Utility {
 
     public static <T> T jsonToObject(ObjectMapper objectMapper, String json, Class<T> tClass){
         try {
-
             return objectMapper.readValue(json, tClass);
+        } catch (JsonProcessingException e) {
+            log.error("Error with mapping : {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public static <T> String objectToJson(ObjectMapper objectMapper, T object){
+        try {
+            return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("Error with mapping : {}", e.getMessage(), e);
             return null;

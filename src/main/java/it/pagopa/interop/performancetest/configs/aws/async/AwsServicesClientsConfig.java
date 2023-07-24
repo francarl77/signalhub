@@ -50,11 +50,9 @@ public class AwsServicesClientsConfig {
 
             String endpointUrl = props.getEndpointUrl();
             if( StringUtils.isNotBlank( endpointUrl )) {
-                builder.endpointOverride( URI.create( endpointUrl ));
+                builder.endpointOverride(URI.create(endpointUrl));
             }
-
         }
-
 
         return builder.build();
     }

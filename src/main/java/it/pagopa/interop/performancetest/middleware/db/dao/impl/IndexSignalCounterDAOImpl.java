@@ -7,8 +7,6 @@ import it.pagopa.interop.performancetest.middleware.db.entities.IndexSignalCount
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
-import software.amazon.awssdk.enhanced.dynamodb.model.TransactUpdateItemEnhancedRequest;
-import software.amazon.awssdk.enhanced.dynamodb.model.TransactWriteItemsEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 
 
@@ -26,9 +24,8 @@ public class IndexSignalCounterDAOImpl extends BaseDAO<IndexSignalCounter> imple
     }
 
     @Override
-    public Mono<IndexSignalCounter> updateWithTransaction(IndexSignalCounter counter) {
+    public Mono<IndexSignalCounter> updateEntity(IndexSignalCounter counter) {
         counter.setMaxIndexSignal(null);
-
         return Mono.fromFuture(super.update(counter).thenApply(item -> item));
     }
 }

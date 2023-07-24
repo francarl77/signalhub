@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>it.pagopa.interop</groupId>
-	<artifactId>performance-test</artifactId>
+	<artifactId>performancetest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>performance-test</name>
+	<name>performancetest</name>
 	<description>Signal hub test performance microservice</description>
 	<properties>
 		<java.version>17</java.version>

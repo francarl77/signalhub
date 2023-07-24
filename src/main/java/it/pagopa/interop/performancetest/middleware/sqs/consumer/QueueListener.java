@@ -28,12 +28,11 @@ public class QueueListener {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @SqsListener(value = "${aws.internal-queue-name}", deletionPolicy = SqsMessageDeletionPolicy.ALWAYS)
+    @SqsListener(value = "${aws.internal-queue-name}", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
     public void pullFromDataLakeQueue(@Payload String node, @Headers Map<String, Object> headers){
-
         log.info(node);
         Signal signal = convertToObject(node, Signal.class);
-        this.queueListenerService.signalListener(signal);
+        this.queueListenerService.signalListener(signal).then().subscribe();
     }
 
     private <T> T convertToObject(String body, Class<T> tClass){

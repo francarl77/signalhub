@@ -20,7 +20,7 @@ public class AwsConfigs {
     private String podNameMs;
     private Boolean useAwsKeyspace;
 
-
+    private String internalQueueName;
     private String accessKeyId;
     private String secretAccessKey;
 }

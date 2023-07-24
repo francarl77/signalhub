@@ -8,7 +8,7 @@ public interface IndexSignalCounterDAO {
 
     Mono<IndexSignalCounter> get(String eserviceID);
 
-    Mono<IndexSignalCounter> updateWithTransaction(IndexSignalCounter counter);
+    Mono<IndexSignalCounter> updateEntity(IndexSignalCounter counter);
 
 
 }
