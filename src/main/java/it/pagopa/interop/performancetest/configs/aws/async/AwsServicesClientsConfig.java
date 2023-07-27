@@ -1,7 +1,6 @@
 package it.pagopa.interop.performancetest.configs.aws.async;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
@@ -12,6 +11,7 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.utils.StringUtils;
 
 import java.net.URI;
@@ -29,6 +29,11 @@ public class AwsServicesClientsConfig {
     @Bean
     public DynamoDbClient dynamoDbClient() {
         return configureBuilder( DynamoDbClient.builder() );
+    }
+
+    @Bean
+    public SqsClient sqsClient() {
+        return (SqsClient)this.configureBuilder(SqsClient.builder());
     }
 
     private <C> C configureBuilder(AwsClientBuilder<?, C> builder) {
