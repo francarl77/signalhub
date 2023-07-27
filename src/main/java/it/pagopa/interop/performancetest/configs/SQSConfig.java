@@ -22,9 +22,9 @@ public class SQSConfig {
 
     @Bean
     public AmazonSQSAsync amazonSQS() {
-        if (StringUtils.hasText(awsConfigs.getEndpointUrl())) {
+        if (StringUtils.hasText(awsConfigs.getSqsEndpoint())) {
             return AmazonSQSAsyncClientBuilder.standard()
-                    .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(awsConfigs.getEndpointUrl(), awsConfigs.getRegionCode()))
+                    .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(awsConfigs.getSqsEndpoint(), awsConfigs.getRegionCode()))
                     .withCredentials(WebIdentityTokenCredentialsProvider.create())
                     .build();
         } else {

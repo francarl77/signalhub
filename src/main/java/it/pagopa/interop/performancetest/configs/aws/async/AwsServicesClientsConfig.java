@@ -31,11 +31,6 @@ public class AwsServicesClientsConfig {
         return configureBuilder( DynamoDbClient.builder() );
     }
 
-    @Bean
-    public SqsClient sqsClient() {
-        return (SqsClient)this.configureBuilder(SqsClient.builder());
-    }
-
     private <C> C configureBuilder(AwsClientBuilder<?, C> builder) {
         if( props != null ) {
 
@@ -53,10 +48,6 @@ public class AwsServicesClientsConfig {
                 builder.region( Region.of( regionCode ));
             }
 
-            String endpointUrl = props.getEndpointUrl();
-            if( StringUtils.isNotBlank( endpointUrl )) {
-                builder.endpointOverride(URI.create(endpointUrl));
-            }
         }
 
         return builder.build();

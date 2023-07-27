@@ -23,5 +23,14 @@ spec:
           env:
             - name: AWS_REGION_CODE
               value: eu-south-1
+            - name: AWS_INTERNAL_QUEUE_NAME
+              value: signalhub-sqs
+            - name: AWS_SQS_ENDPOINT
+              value: https://sqs.eu-south-1.amazonaws.com/248862543363
+            - name: AWS_POD_NAME_MS
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
       imagePullSecrets:
         - name: ghcr-login-secret
