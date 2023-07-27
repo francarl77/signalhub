@@ -168,11 +168,6 @@
 			<artifactId>aws-java-sdk-core</artifactId>
 			<version>1.12.506</version>
 		</dependency>
-		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>sts</artifactId>
-			<version>2.20.97</version>
-		</dependency>
 	</dependencies>
 
 	<build>
