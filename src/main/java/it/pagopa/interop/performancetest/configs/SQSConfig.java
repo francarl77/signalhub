@@ -1,5 +1,6 @@
 package it.pagopa.interop.performancetest.configs;
 
+import com.amazonaws.auth.WebIdentityTokenCredentialsProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
@@ -24,6 +25,7 @@ public class SQSConfig {
         if (StringUtils.hasText(awsConfigs.getEndpointUrl())) {
             return AmazonSQSAsyncClientBuilder.standard()
                     .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(awsConfigs.getEndpointUrl(), awsConfigs.getRegionCode()))
+                    .withCredentials(WebIdentityTokenCredentialsProvider.create())
                     .build();
         } else {
             return AmazonSQSAsyncClientBuilder.standard()
