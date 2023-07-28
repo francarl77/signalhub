@@ -1,8 +1,7 @@
 package it.pagopa.interop.performancetest.middleware.sqs.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.awspring.cloud.messaging.listener.SqsMessageDeletionPolicy;
-import io.awspring.cloud.messaging.listener.annotation.SqsListener;
+import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import it.pagopa.interop.performancetest.exception.PnGenericException;
 import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
 import it.pagopa.interop.performancetest.service.QueueListenerService;
@@ -28,7 +27,7 @@ public class QueueListener {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @SqsListener(value = "${aws.internal-queue-name}", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
+    @SqsListener(value = "${aws.internal-queue-name}")
     public void pullFromDataLakeQueue(@Payload String node, @Headers Map<String, Object> headers){
         log.info(node);
         Signal signal = convertToObject(node, Signal.class);

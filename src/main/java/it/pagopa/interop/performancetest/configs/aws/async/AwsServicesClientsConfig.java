@@ -11,10 +11,7 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.utils.StringUtils;
-
-import java.net.URI;
 
 @Configuration
 @Slf4j
