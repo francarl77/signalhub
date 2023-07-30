@@ -28,7 +28,7 @@ public class QueueListener {
 
     @SqsListener(value = "${aws.internal-queue-name}")
     public void pullFromDataLakeQueue(@Payload String node, @Headers Map<String, Object> headers){
-        log.info(node);
+        log.info("Received payload from queue: {}", node);
         Signal signal = convertToObject(node, Signal.class);
         this.queueListenerService.signalListener(signal).then().subscribe();
     }
