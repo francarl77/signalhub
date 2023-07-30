@@ -11,7 +11,10 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.utils.StringUtils;
+
+import java.net.URI;
 
 @Configuration
 @Slf4j
@@ -25,10 +28,15 @@ public class AwsServicesClientsConfig {
 
     @Bean
     public DynamoDbClient dynamoDbClient() {
-        return configureBuilder( DynamoDbClient.builder() );
+        return configureBuilder( DynamoDbClient.builder(), null);
     }
 
-    private <C> C configureBuilder(AwsClientBuilder<?, C> builder) {
+    @Bean
+    public SqsClient sqsClient() {
+        return configureBuilder(SqsClient.builder(), props.getSqsEndpoint());
+    }
+
+    private <C> C configureBuilder(AwsClientBuilder<?, C> builder, String endpoint) {
         if( props != null ) {
 
             String profileName = props.getProfileName();
@@ -45,6 +53,10 @@ public class AwsServicesClientsConfig {
                 builder.region( Region.of( regionCode ));
             }
 
+            if( StringUtils.isNotBlank( endpoint )) {
+                builder.endpointOverride(URI.create(endpoint));
+            }
+
         }
 
         return builder.build();
@@ -52,7 +64,7 @@ public class AwsServicesClientsConfig {
 
     @Bean
     public DynamoDbAsyncClient dynamoDbAsyncClient() {
-        return this.configureBuilder( DynamoDbAsyncClient.builder() );
+        return configureBuilder( DynamoDbAsyncClient.builder(), null );
     }
 
 

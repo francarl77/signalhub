@@ -1,7 +1,7 @@
 package it.pagopa.interop.performancetest.middleware.sqs.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
+import io.awspring.cloud.sqs.annotation.SqsListener;
 import it.pagopa.interop.performancetest.exception.PnGenericException;
 import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
 import it.pagopa.interop.performancetest.service.QueueListenerService;
@@ -12,10 +12,9 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import static it.pagopa.interop.performancetest.exception.ExceptionTypeEnum.MAPPER_ERROR;
-
-
 import java.util.Map;
+
+import static it.pagopa.interop.performancetest.exception.ExceptionTypeEnum.MAPPER_ERROR;
 
 @Component
 @Slf4j
