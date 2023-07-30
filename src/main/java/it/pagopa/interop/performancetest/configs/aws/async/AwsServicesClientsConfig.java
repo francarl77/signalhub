@@ -1,9 +1,12 @@
 package it.pagopa.interop.performancetest.configs.aws.async;
 
+import io.awspring.cloud.sqs.config.SqsBootstrapConfiguration;
+import io.awspring.cloud.sqs.config.SqsMessageListenerContainerFactory;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.WebIdentityTokenFileCredentialsProvider;
 import software.amazon.awssdk.awscore.client.builder.AwsClientBuilder;
@@ -17,6 +20,7 @@ import software.amazon.awssdk.utils.StringUtils;
 
 import java.net.URI;
 
+@Import(SqsBootstrapConfiguration.class)
 @Configuration
 @Slf4j
 public class AwsServicesClientsConfig {
@@ -41,6 +45,14 @@ public class AwsServicesClientsConfig {
     public SqsTemplate sqsTemplate() {
         return SqsTemplate.builder().sqsAsyncClient(sqsAsyncClient())
                 .configure(options -> options.defaultQueue(props.getInternalQueueName()))
+                .build();
+    }
+
+    @Bean
+    public SqsMessageListenerContainerFactory<Object> defaultSqsListenerContainerFactory() {
+        return SqsMessageListenerContainerFactory
+                .builder()
+                .sqsAsyncClient(sqsAsyncClient())
                 .build();
     }
 

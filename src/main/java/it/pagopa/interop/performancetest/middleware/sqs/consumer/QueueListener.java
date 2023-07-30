@@ -17,7 +17,7 @@ public class QueueListener {
     @Autowired
     private QueueListenerService queueListenerService;
 
-    @SqsListener("${aws.sqs-endpoint}/${aws.internal-queue-name}")
+    @SqsListener("${aws.internal-queue-name}")
     public void listen(Signal signal, @Headers Map<String, Object> headers){
         log.info("Received payload from queue: {}", signal);
         this.queueListenerService.signalListener(signal).then().subscribe();
