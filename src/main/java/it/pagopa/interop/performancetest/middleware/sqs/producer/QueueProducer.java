@@ -2,7 +2,6 @@ package it.pagopa.interop.performancetest.middleware.sqs.producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
-import it.pagopa.interop.performancetest.configs.aws.async.AwsConfigs;
 import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
 import it.pagopa.interop.performancetest.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +13,17 @@ import org.springframework.stereotype.Component;
 public class QueueProducer {
 
     @Autowired
-    private SqsTemplate queueMessagingTemplate;
+    private SqsTemplate sqsTemplate;
 
-    private final AwsConfigs awsConfigs;
     private final ObjectMapper objectMapper;
 
 
-    public QueueProducer(AwsConfigs awsConfigs, ObjectMapper objectMapper) {
-        this.awsConfigs = awsConfigs;
+    public QueueProducer(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     public void send(Signal message) {
-        this.queueMessagingTemplate.send(
-                awsConfigs.getInternalQueueName(),
+        this.sqsTemplate.send(
                 MessageBuilder.withPayload(convertToJson(message)).build()
         );
     }

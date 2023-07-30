@@ -1,5 +1,6 @@
 package it.pagopa.interop.performancetest.configs.aws.async;
 
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,7 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.sqs.SqsClient;
+import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 import software.amazon.awssdk.utils.StringUtils;
 
 import java.net.URI;
@@ -32,8 +33,15 @@ public class AwsServicesClientsConfig {
     }
 
     @Bean
-    public SqsClient sqsClient() {
-        return configureBuilder(SqsClient.builder(), props.getSqsEndpoint());
+    public SqsAsyncClient sqsAsyncClient() {
+        return configureBuilder(SqsAsyncClient.builder(), props.getSqsEndpoint());
+    }
+
+    @Bean
+    public SqsTemplate sqsTemplate() {
+        return SqsTemplate.builder().sqsAsyncClient(sqsAsyncClient())
+                .configure(options -> options.defaultQueue(props.getInternalQueueName()))
+                .build();
     }
 
     private <C> C configureBuilder(AwsClientBuilder<?, C> builder, String endpoint) {
