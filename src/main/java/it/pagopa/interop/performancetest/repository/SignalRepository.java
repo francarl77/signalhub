@@ -1,9 +1,9 @@
 package it.pagopa.interop.performancetest.repository;
 
 import it.pagopa.interop.performancetest.entity.SignalEntity;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SignalRepository extends ReactiveCrudRepository<SignalEntity, Long> {
+public interface SignalRepository extends JpaRepository<SignalEntity, Long> {
 
 
 }

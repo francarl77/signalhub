@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
@@ -19,11 +18,10 @@ public class QueueListenerServiceImpl implements QueueListenerService {
 
     @Override
     @Transactional
-    public Mono<SignalEntity> signalListener(SignalEntity signal) {
+    public void signalListener(SignalEntity signal) {
         log.info("Save signal into DB");
-        return this.signalRepository.save(signal)
-                .doOnSuccess(entity -> log.info("Signal saved"))
-                .doOnError(ex -> log.error("Save signal in error {}", ex.getMessage(), ex));
+        this.signalRepository.saveAndFlush(signal);
+        log.info("Saved on db");
     }
 
 

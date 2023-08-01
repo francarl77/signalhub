@@ -4,17 +4,19 @@ package it.pagopa.interop.performancetest.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.*;
 import java.time.Instant;
 
-@Table
+
 @Getter
 @Setter
+@Entity
+@Table(name = "signal_entity")
 public class SignalEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long indexSignal;
 
     private String signalId;
