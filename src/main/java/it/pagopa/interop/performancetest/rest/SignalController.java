@@ -23,7 +23,6 @@ public class SignalController {
     //POST: interop-signal-hub/push-signal + BODY
     //GET : interop-signal-hub/pull-signal?eserviceid=abc&indexSignal=1234
     @Autowired
-    @Qualifier("not-relational")
     private SignalService signalServiceImpl;
 
     @PostMapping(value = "/push-signal")

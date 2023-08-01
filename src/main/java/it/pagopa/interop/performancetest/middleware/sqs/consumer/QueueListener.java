@@ -2,6 +2,7 @@ package it.pagopa.interop.performancetest.middleware.sqs.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.annotation.SqsListener;
+import it.pagopa.interop.performancetest.entity.SignalEntity;
 import it.pagopa.interop.performancetest.exception.ExceptionTypeEnum;
 import it.pagopa.interop.performancetest.exception.PnGenericException;
 import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
@@ -27,7 +28,7 @@ public class QueueListener {
     @SqsListener("${aws.internal-queue-name}")
     public void listen(String node, @Headers Map<String, Object> headers){
         log.info("Received payload from queue: {}", node);
-        Signal signal = convertToObject(node, Signal.class);
+        SignalEntity signal = convertToObject(node, SignalEntity.class);
         this.queueListenerService.signalListener(signal).then().subscribe();
     }
 
