@@ -7,5 +7,5 @@
       http://www.liquibase.org/xml/ns/pro
       http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <include file="/db/changelog/changes/init_table/changelog.xml"/>
-    <include file="/db/changelog/changes/init_table_sequence/changelog.xml"/>
+    <include file="/db/changelog/changes/init_hibernate_sequence/changelog.xml"/>
 </databaseChangeLog>
