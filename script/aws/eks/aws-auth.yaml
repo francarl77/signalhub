@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::248862543363:role/eksctl-dev-signalhub-clust-FargatePodExecutionRole-1ULIE3O26PPGO
+      username: system:node:{{SessionName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+        - system:node-proxier
+    - rolearn: arn:aws:iam::248862543363:role/AWSReservedSSO_FullAdmin_f3485499aca704c0
+      username: sso-fulladmin-{{SessionName}}
+      groups:
+        - system:masters
+  mapUsers: |
+    - userarn: arn:aws:iam::248862543363:user/cristopher.moccia
+      username: cristopher.moccia
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::248862543363:user/francesco.carlucci
+      username: francesco.carlucci
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::248862543363:user/arianna.zafarana
+      username: arianna.zafarana
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::248862543363:user/oliviero.caico
+      username: oliviero.caico
+      groups:
+        - system:masters
+

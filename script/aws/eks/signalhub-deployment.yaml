@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: signalhub-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: signalhub
@@ -11,8 +11,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: signalhub
-        env: dev
-        checks: passed
     spec:
       serviceAccountName: signalhub-serviceaccount
       containers:

@@ -9,7 +9,7 @@ metadata:
   version: "1.27"
   
 fargateProfiles:
-  - name: fp-default
+  - name: fargate-default-2
     selectors:
       # All workloads in the "default" Kubernetes namespace will be
       # scheduled onto Fargate:
@@ -17,18 +17,10 @@ fargateProfiles:
       # All workloads in the "kube-system" Kubernetes namespace will be
       # scheduled onto Fargate:
       - namespace: kube-system
-  - name: fp-dev
+  - name: fargate-dev
     selectors:
-      # All workloads in the "dev" Kubernetes namespace matching the following
-      # label selectors will be scheduled onto Fargate:
       - namespace: dev
-        labels:
-          env: dev
-          checks: passed
-    tags:
-      env: dev
-      name: fp-dev
-      
+
 vpc:
   cidr: 10.10.0.0/16
   autoAllocateIPv6: false
