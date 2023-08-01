@@ -16,7 +16,7 @@ import java.time.Instant;
 public class SignalEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long indexSignal;
 
     private String signalId;
