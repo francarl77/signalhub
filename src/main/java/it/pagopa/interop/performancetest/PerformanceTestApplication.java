@@ -3,11 +3,13 @@ package it.pagopa.interop.performancetest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @SpringBootApplication
+@EnableR2dbcAuditing
 public class PerformanceTestApplication {
 
 	public static void main(String[] args) {
