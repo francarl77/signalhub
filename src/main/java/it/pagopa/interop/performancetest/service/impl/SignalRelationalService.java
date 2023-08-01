@@ -8,7 +8,6 @@ import it.pagopa.interop.performancetest.middleware.sqs.producer.QueueProducer;
 import it.pagopa.interop.performancetest.repository.SignalRepository;
 import it.pagopa.interop.performancetest.service.SignalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
