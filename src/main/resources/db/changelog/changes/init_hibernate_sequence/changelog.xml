@@ -7,7 +7,7 @@
       http://www.liquibase.org/xml/ns/pro
       http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
 
-    <changeSet author="CMDev97" id="init_table">
+    <changeSet author="CMDev97" id="init_table_hibernate">
         <createSequence catalogName="cat" cycle="false"
                         incrementBy="1" ordered="true" schemaName="public"
                         sequenceName="hibernate_sequence" startValue="0" />
