@@ -14,13 +14,9 @@ public class AwsConfigs {
     private String profileName;
     private String regionCode;
     private String bucketName;
-    private String endpointUrl;
+    private String sqsEndpoint;
     private String dynamodbSignalTable;
     private String dynamodbIndexSignalCounterTable;
+    private String internalQueueName;
     private String podNameMs;
-    private Boolean useAwsKeyspace;
-
-
-    private String accessKeyId;
-    private String secretAccessKey;
 }

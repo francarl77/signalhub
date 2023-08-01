@@ -1,9 +1,12 @@
 package it.pagopa.interop.performancetest.configs.aws.async;
 
+import io.awspring.cloud.sqs.config.SqsBootstrapConfiguration;
+import io.awspring.cloud.sqs.config.SqsMessageListenerContainerFactory;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.WebIdentityTokenFileCredentialsProvider;
 import software.amazon.awssdk.awscore.client.builder.AwsClientBuilder;
@@ -12,10 +15,12 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 import software.amazon.awssdk.utils.StringUtils;
 
 import java.net.URI;
 
+@Import(SqsBootstrapConfiguration.class)
 @Configuration
 @Slf4j
 public class AwsServicesClientsConfig {
@@ -28,10 +33,30 @@ public class AwsServicesClientsConfig {
 
     @Bean
     public DynamoDbClient dynamoDbClient() {
-        return configureBuilder( DynamoDbClient.builder() );
+        return configureBuilder( DynamoDbClient.builder(), null);
     }
 
-    private <C> C configureBuilder(AwsClientBuilder<?, C> builder) {
+    @Bean
+    public SqsAsyncClient sqsAsyncClient() {
+        return configureBuilder(SqsAsyncClient.builder(), props.getSqsEndpoint());
+    }
+
+    @Bean
+    public SqsTemplate sqsTemplate() {
+        return SqsTemplate.builder().sqsAsyncClient(sqsAsyncClient())
+                .configure(options -> options.defaultQueue(props.getInternalQueueName()))
+                .build();
+    }
+
+    @Bean
+    public SqsMessageListenerContainerFactory<Object> defaultSqsListenerContainerFactory() {
+        return SqsMessageListenerContainerFactory
+                .builder()
+                .sqsAsyncClient(sqsAsyncClient())
+                .build();
+    }
+
+    private <C> C configureBuilder(AwsClientBuilder<?, C> builder, String endpoint) {
         if( props != null ) {
 
             String profileName = props.getProfileName();
@@ -48,20 +73,18 @@ public class AwsServicesClientsConfig {
                 builder.region( Region.of( regionCode ));
             }
 
-            String endpointUrl = props.getEndpointUrl();
-            if( StringUtils.isNotBlank( endpointUrl )) {
-                builder.endpointOverride( URI.create( endpointUrl ));
+            if( StringUtils.isNotBlank( endpoint )) {
+                builder.endpointOverride(URI.create(endpoint));
             }
 
         }
-
 
         return builder.build();
     }
 
     @Bean
     public DynamoDbAsyncClient dynamoDbAsyncClient() {
-        return this.configureBuilder( DynamoDbAsyncClient.builder() );
+        return configureBuilder( DynamoDbAsyncClient.builder(), null );
     }
 
 

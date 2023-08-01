@@ -44,6 +44,12 @@ public class Signal {
     @Getter(onMethod = @__({@DynamoDbAttribute(COL_SIGNAL_TYPE)}))
     private String signalType;
 
+    @Getter(onMethod = @__({@DynamoDbAttribute(COL_NODE_PRODUCER)}))
+    private String nodeProducer;
+
+    @Getter(onMethod = @__({@DynamoDbAttribute(COL_NODE_CONSUMER)}))
+    private String nodeConsumer;
+
     @Getter(onMethod = @__({@DynamoDbAttribute(COL_TMS_INSERT)}))
     private Instant tmsInsert;
 
