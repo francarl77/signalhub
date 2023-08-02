@@ -29,7 +29,6 @@ public class SignalRelationalService implements SignalService {
     }
 
     @Override
-    @Transactional
     public SignalDTO saveSignal(SignalDTO signal) {
         SignalEntity entity = this.signalRepository.saveAndFlush(SignalMapper.toSignalEntity(signal));
         return SignalMapper.toDTO(entity);
