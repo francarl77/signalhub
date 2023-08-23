@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class PerformanceTestApplication {
 
 	public static void main(String[] args) {
+
+		log.error("AVAILABLE PROCESSOR: {}", Runtime.getRuntime().availableProcessors() );
+
 		SpringApplication.run(PerformanceTestApplication.class, args);
 	}
 
