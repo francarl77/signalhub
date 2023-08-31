@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  k6:
+    image: loadimpact/k6:0.43.1
+    container_name: k6
+    environment:
+      - K6_OUT=influxdb=http://influxdb:8086/k6
+    volumes:
+      - ./tests:/scripts
+
+  influxdb:
+    image: influxdb:1.8.10
+    container_name: influxdb
+    environment:
+      - INFLUXDB_DB=k6
+      - INFLUXDB_HTTP_MAX_BODY_SIZE=0
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb

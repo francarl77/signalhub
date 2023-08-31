@@ -20,6 +20,9 @@ spec:
           image: ghcr.io/francarl77/signalhub:latest
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              cpu: 1.0
           env:
             - name: AWS_REGION_CODE
               value: eu-south-1
@@ -27,6 +30,18 @@ spec:
               value: signalhub-sqs
             - name: AWS_SQS_ENDPOINT
               value: https://sqs.eu-south-1.amazonaws.com/248862543363
+            - name: AWS_STS_REGIONAL_ENDPOINTS
+              value: regional
+            - name: DATABASE_USERNAME
+              value: postgres
+            - name: DATABASE_PASSWORD
+              value: m0mtZ7p2DxoqE8IOqzx9
+            - name: DATABASE_HOST
+              value: signalhub-rds-db-instance-1.ci5nksqtybl9.eu-south-1.rds.amazonaws.com
+            - name: DATABASE_PORT
+              value: 5432
+            - name: AWS_DYNAMODB_SIGNAL_TABLE
+              value: Signal-test
             - name: AWS_POD_NAME_MS
               valueFrom:
                 fieldRef:
