@@ -8,11 +8,11 @@ import reactor.netty.resources.LoopResources;
 
 @Configuration
 public class NettyConfig {
-    @Bean
-    public ReactiveWebServerFactory reactiveWebServerFactory() {
-        NettyReactiveWebServerFactory factory = new NettyReactiveWebServerFactory();
-        factory.addServerCustomizers(httpServer ->
-                httpServer.runOn(LoopResources.create("event-loop-custom", 1, 2, true)));
-        return factory;
-    }
+//    @Bean
+//    public ReactiveWebServerFactory reactiveWebServerFactory() {
+//        NettyReactiveWebServerFactory factory = new NettyReactiveWebServerFactory();
+//        factory.addServerCustomizers(httpServer ->
+//                httpServer.runOn(LoopResources.create("event-loop-custom", 1, 2, true)));
+//        return factory;
+//    }
 }
