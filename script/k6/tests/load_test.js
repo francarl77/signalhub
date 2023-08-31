@@ -13,9 +13,9 @@ function test_case_1() {
 
 function test_case_2() {
     const url = __ENV.URL;
-    const testnumber = __ENV.TESTNUMBER || Math.floor(Math.random() * 1000);
+    const test = __ENV.TEST || Math.floor(Math.random() * 1000);
     const payload = JSON.stringify({
-        "objectId":"test" + testnumber + "-postgres-mvc","eserviceId":"test-postgres-mvc","objectType":"CREATE","signalType":"CREATE"
+        "objectId":"test-" + test,"eserviceId":"test-postgres","objectType":"CREATE","signalType":"CREATE"
     });
     const params = {
         headers: {
