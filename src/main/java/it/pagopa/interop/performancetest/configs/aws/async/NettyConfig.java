@@ -12,7 +12,7 @@ public class NettyConfig {
     public ReactiveWebServerFactory reactiveWebServerFactory() {
         NettyReactiveWebServerFactory factory = new NettyReactiveWebServerFactory();
         factory.addServerCustomizers(httpServer ->
-                httpServer.runOn(LoopResources.create("event-loop-custom", 1, 8, true)));
+                httpServer.runOn(LoopResources.create("event-loop-custom", 1, 2, true)));
         return factory;
     }
 }

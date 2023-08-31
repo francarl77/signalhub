@@ -32,10 +32,14 @@ spec:
               value: https://sqs.eu-south-1.amazonaws.com/248862543363
             - name: AWS_STS_REGIONAL_ENDPOINTS
               value: regional
-            - name: DB_USERNAME
+            - name: DATABASE_USERNAME
               value: postgres
-            - name: DB_PASSWORD
+            - name: DATABASE_PASSWORD
               value: m0mtZ7p2DxoqE8IOqzx9
+            - name: DATABASE_HOST
+              value: signalhub-rds-db-instance-1.ci5nksqtybl9.eu-south-1.rds.amazonaws.com
+            - name: DATABASE_PORT
+              value: 5432
             - name: AWS_DYNAMODB_SIGNAL_TABLE
               value: Signal-test
             - name: AWS_POD_NAME_MS
