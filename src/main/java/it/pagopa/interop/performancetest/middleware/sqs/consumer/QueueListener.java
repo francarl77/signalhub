@@ -29,7 +29,7 @@ public class QueueListener {
     public void listen(String node, @Headers Map<String, Object> headers){
         log.info("Received payload from queue: {}", node);
         SignalEntity signal = convertToObject(node, SignalEntity.class);
-        this.queueListenerService.signalListener(signal).then().subscribe();
+        this.queueListenerService.signalListener(signal).then().block();
     }
 
     private <T> T convertToObject(String body, Class<T> tClass){
