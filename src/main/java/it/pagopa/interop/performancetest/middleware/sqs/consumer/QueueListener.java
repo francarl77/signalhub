@@ -12,8 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 @Slf4j
@@ -26,10 +28,10 @@ public class QueueListener {
     private ObjectMapper objectMapper;
 
     @SqsListener("${aws.internal-queue-name}")
-    public void listen(String node, @Headers Map<String, Object> headers){
+    public CompletableFuture<Void> listen(String node, @Headers Map<String, Object> headers){
         log.info("Received payload from queue: {}", node);
         SignalEntity signal = convertToObject(node, SignalEntity.class);
-        this.queueListenerService.signalListener(signal).then().block();
+        return this.queueListenerService.signalListener(signal).then().toFuture();
     }
 
     private <T> T convertToObject(String body, Class<T> tClass){

@@ -52,6 +52,9 @@ public class AwsServicesClientsConfig {
     public SqsMessageListenerContainerFactory<Object> defaultSqsListenerContainerFactory() {
         return SqsMessageListenerContainerFactory
                 .builder()
+                .configure(options -> options
+                        .maxConcurrentMessages(1)
+                        .maxMessagesPerPoll(1))
                 .sqsAsyncClient(sqsAsyncClient())
                 .build();
     }
