@@ -1,5 +1,6 @@
 package it.pagopa.interop.performancetest.rest;
 
+import it.pagopa.interop.performancetest.entity.SignalEntity;
 import it.pagopa.interop.performancetest.service.SignalService;
 import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.configs.aws.async.AwsConfigs;
@@ -31,6 +32,14 @@ public class SignalController {
     ) {
         log.debug("Name Of POD : {}", awsConfigs.getPodNameMs());
         return this.signalServiceImpl.pushSignal(signalDto).map(ResponseEntity::ok);
+    }
+
+    @PostMapping(value = "/push-signal-async")
+    public Mono<ResponseEntity<SignalEntity>> pushSignalAsync(
+            @RequestBody() SignalDTO signalDto
+    ) {
+        log.debug("Name Of POD : {}", awsConfigs.getPodNameMs());
+        return this.signalServiceImpl.pushSignalAsync(signalDto).map(ResponseEntity::ok);
     }
 
     @GetMapping(value = "/pull-signal")
