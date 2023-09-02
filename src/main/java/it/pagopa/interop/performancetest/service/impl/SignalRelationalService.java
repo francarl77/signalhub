@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigInteger;
+
 @Slf4j
 @Service
 @Qualifier("relational")
@@ -27,6 +29,9 @@ public class SignalRelationalService implements SignalService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private SignalRepository signalRepository;
 
     @Override
     public Mono<SignalDTO> pushSignal(SignalDTO signal) {
@@ -41,7 +46,8 @@ public class SignalRelationalService implements SignalService {
     }
 
     @Override
-    public Flux<SignalDTO> pullSignal(Long indexSignal, String eserviceId, String signalType, String objectType) {
-        return null;
+    public Flux<SignalDTO> pullSignal(Long lastSignalId, String eserviceId, String signalType, String objectType) {
+        return signalRepository.findByEserviceIdAndSignalIdGreaterThan(eserviceId, BigInteger.valueOf(lastSignalId))
+                .map(s -> SignalMapper.toDTO(s));
     }
 }

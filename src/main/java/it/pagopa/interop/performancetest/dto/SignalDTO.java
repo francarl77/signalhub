@@ -2,13 +2,14 @@ package it.pagopa.interop.performancetest.dto;
 
 import lombok.Data;
 
+import java.math.BigInteger;
 import java.time.Instant;
 
 @Data
 public class SignalDTO {
 
-    private String signalId;
-    private Long indexSignal;
+    private BigInteger signalId;
+    private BigInteger indexSignal;
     private String objectId;
     private String eserviceId;
     private String objectType;

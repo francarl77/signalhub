@@ -6,11 +6,12 @@ import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.configs.aws.async.AwsConfigs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.math.BigInteger;
 
 
 @Slf4j
@@ -43,12 +44,12 @@ public class SignalController {
     }
 
     @GetMapping(value = "/pull-signal")
-    public Mono<ResponseEntity<Flux<SignalDTO>>>pullSignal(
+    public Mono<ResponseEntity<Flux<SignalDTO>>> pullSignal(
             @RequestParam(value="eserviceId", required= true) String eserviceId,
-            @RequestParam(value="indexSignal", required= true) Long indexSignal
+            @RequestParam(value= "lastSignalId", required= true) Long lastSignalId
             ) {
 
-        return Mono.just(this.signalServiceImpl.pullSignal(indexSignal, eserviceId,null,null).map(item -> item)).map(ResponseEntity::ok);
+        return Mono.just(this.signalServiceImpl.pullSignal(lastSignalId, eserviceId,null,null).map(item -> item)).map(ResponseEntity::ok);
     }
 
     @GetMapping(value = "/signal-pull")

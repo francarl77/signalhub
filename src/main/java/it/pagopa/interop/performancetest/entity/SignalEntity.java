@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.math.BigInteger;
 import java.time.Instant;
 
 @Table
@@ -15,9 +16,9 @@ import java.time.Instant;
 public class SignalEntity {
 
     @Id
-    private Long indexSignal;
+    private BigInteger indexSignal;
 
-    private String signalId;
+    private BigInteger signalId;
 
     private String objectId;
 
