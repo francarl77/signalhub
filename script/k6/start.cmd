@@ -7,4 +7,4 @@ podman-compose run --rm k6 run /scripts/push_test.js -u500 -d10s -e TEST=1-webfl
 podman-compose run --rm k6 run /scripts/push_test.js -u100 -d5s -e TEST=1-webflux-sqs-ok -e URL=http://localhost:8080/relational/push-signal
 
 
-k6 run .\script\k6\tests\pull_test.js -u500 -d10s -e URL=http://localhost:8080/relational/pull-signal
+k6 run .\script\k6\tests\pull_test.js -u500 -d10s -e URL=http://localhost:8080/relational/pull-signal --out json=script\k6\results\test1.json.gz
