@@ -7,7 +7,12 @@ aws --profile default --region us-east-1 --endpoint-url http://localstack:4566 \
 aws --profile default --region us-east-1 --endpoint-url http://localstack:4566 sqs get-queue-attributes --queue-url http://localhost:4566/000000000000/internal-queue --attribute-names All
 aws --profile default --region us-east-1 --endpoint-url http://localstack:4566 sqs purge-queue --queue-url http://localhost:4566/000000000000/internal-queue
 
+
 podman run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=m0mtZ7p2DxoqE8IOqzx9 -e POSTGRES_DB=signal_hub_db -d postgres
+podman exec -it postgres bash
+root@xxx: psql -U postgres -d signal_hub_db
+signal_hub_db=# truncate table signal_entity;
+
 podman run -d -p 6379:6379 --name redis  redis
 
 podman run -v ./script/k6/results/:/tmp/work -p 5665:5665 -it --rm ghcr.io/grafana/xk6-dashboard:latest dashboard replay /tmp/work/test1.json.gz

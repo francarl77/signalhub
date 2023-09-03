@@ -2,6 +2,7 @@ package it.pagopa.interop.performancetest.service.impl;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.pagopa.interop.performancetest.configs.aws.async.AwsConfigs;
 import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.entity.SignalEntity;
 import it.pagopa.interop.performancetest.mapper.SignalMapper;
@@ -33,6 +34,9 @@ public class SignalRelationalService implements SignalService {
     @Autowired
     private SignalRepository signalRepository;
 
+    @Autowired
+    private AwsConfigs config;
+
     @Override
     public Mono<SignalDTO> pushSignal(SignalDTO signal) {
         this.queueProducer.send(SignalMapper.toSignalEntity(signal));
@@ -48,6 +52,7 @@ public class SignalRelationalService implements SignalService {
     @Override
     public Flux<SignalDTO> pullSignal(Long lastSignalId, String eserviceId, String signalType, String objectType) {
         return signalRepository.findByEserviceIdAndSignalIdGreaterThan(eserviceId, BigInteger.valueOf(lastSignalId))
+                .take(config.getPullLimit())
                 .map(s -> SignalMapper.toDTO(s));
     }
 }

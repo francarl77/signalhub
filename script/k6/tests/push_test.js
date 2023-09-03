@@ -41,10 +41,12 @@ async function test_case() {
     const randomSignalType = signal_types[randomIndex];
 
     const signalId = await redisClient.incr(randomEServiceId);
-    // console.log(signalId);
+    //console.log("signalId= " + signalId);
 
     const payload = JSON.stringify({
-        "signalId": signalId,"objectId": "test-" + test, "eserviceId": randomEServiceId, "objectType": randomObjectType,
+        "signalId": signalId, "objectId": "test-" + test,
+        "eserviceId": randomEServiceId,
+        "objectType": randomObjectType,
         "signalType": randomSignalType
     });
     const params = {

@@ -19,4 +19,6 @@ public class AwsConfigs {
     private String dynamodbIndexSignalCounterTable;
     private String internalQueueName;
     private String podNameMs;
+
+    private Long pullLimit;
 }
