@@ -115,7 +115,8 @@ public abstract class BaseDAO<T> {
         return dynamoDbAsyncClient.query(qeRequest.build()).thenApply(QueryResponse::count);
     }
 
-    protected Flux<T> getByFilter(QueryConditional conditional, String index, Map<String, AttributeValue> values, String filterExpression, Integer maxElements){
+    protected Flux<T> getByFilter(QueryConditional conditional, String index, Map<String, AttributeValue> values, String filterExpression,
+                                  Integer maxElements){
         QueryEnhancedRequest.Builder qeRequest = QueryEnhancedRequest
                 .builder()
                 .queryConditional(conditional);

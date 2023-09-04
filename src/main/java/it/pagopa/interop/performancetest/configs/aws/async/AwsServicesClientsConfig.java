@@ -33,7 +33,7 @@ public class AwsServicesClientsConfig {
 
     @Bean
     public DynamoDbClient dynamoDbClient() {
-        return configureBuilder( DynamoDbClient.builder(), null);
+        return configureBuilder( DynamoDbClient.builder(), props.getDynamodbEndpoint());
     }
 
     @Bean
@@ -87,7 +87,7 @@ public class AwsServicesClientsConfig {
 
     @Bean
     public DynamoDbAsyncClient dynamoDbAsyncClient() {
-        return configureBuilder( DynamoDbAsyncClient.builder(), null );
+        return configureBuilder( DynamoDbAsyncClient.builder(), props.getDynamodbEndpoint() );
     }
 
 

@@ -6,6 +6,7 @@ import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.configs.aws.async.AwsConfigs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -16,8 +17,8 @@ import java.math.BigInteger;
 
 @Slf4j
 @RestController
-@RequestMapping( value = "/interop-signal-hub")
-public class SignalController {
+@RequestMapping( value = "/dynamodb")
+public class SignalDynamoDbController {
 
     @Autowired
     private AwsConfigs awsConfigs;
@@ -25,18 +26,11 @@ public class SignalController {
     //POST: interop-signal-hub/push-signal + BODY
     //GET : interop-signal-hub/pull-signal?eserviceid=abc&indexSignal=1234
     @Autowired
+    @Qualifier("dynamodb")
     private SignalService signalServiceImpl;
 
     @PostMapping(value = "/push-signal")
-    public Mono<ResponseEntity<SignalDTO>> pushSignal(
-            @RequestBody() SignalDTO signalDto
-    ) {
-        log.debug("Name Of POD : {}", awsConfigs.getPodNameMs());
-        return this.signalServiceImpl.pushSignal(signalDto).map(ResponseEntity::ok);
-    }
-
-    @PostMapping(value = "/push-signal-async")
-    public Mono<ResponseEntity<SignalEntity>> pushSignalAsync(
+    public Mono<ResponseEntity<SignalDTO>> pushSignalAsync(
             @RequestBody() SignalDTO signalDto
     ) {
         log.debug("Name Of POD : {}", awsConfigs.getPodNameMs());

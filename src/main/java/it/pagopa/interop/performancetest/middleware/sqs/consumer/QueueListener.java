@@ -2,9 +2,11 @@ package it.pagopa.interop.performancetest.middleware.sqs.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.annotation.SqsListener;
+import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.entity.SignalEntity;
 import it.pagopa.interop.performancetest.exception.ExceptionTypeEnum;
 import it.pagopa.interop.performancetest.exception.PnGenericException;
+import it.pagopa.interop.performancetest.mapper.SignalMapper;
 import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
 import it.pagopa.interop.performancetest.service.QueueListenerService;
 import it.pagopa.interop.performancetest.utils.Utility;
@@ -12,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -27,11 +28,20 @@ public class QueueListener {
     @Autowired
     private ObjectMapper objectMapper;
 
+
     @SqsListener("${aws.internal-queue-name}")
     public CompletableFuture<Void> listen(String node, @Headers Map<String, Object> headers){
         log.info("Received payload from queue: {}", node);
-        SignalEntity signal = convertToObject(node, SignalEntity.class);
-        return this.queueListenerService.signalListener(signal).then().toFuture();
+        SignalDTO signalDto = convertToObject(node, SignalDTO.class);
+        if (signalDto.isDynamodb()) {
+            Signal signal = SignalMapper.dynamoToSignal(signalDto);
+            return this.queueListenerService.saveSignalToDynamoDb(signal).then().toFuture();
+        } else {
+            SignalEntity signal = SignalMapper.toSignalEntity(signalDto);
+            return this.queueListenerService.saveSignalToDb(signal).then().toFuture();
+        }
+
+
     }
 
     private <T> T convertToObject(String body, Class<T> tClass){

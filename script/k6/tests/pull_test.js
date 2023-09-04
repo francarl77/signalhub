@@ -1,12 +1,14 @@
 import http from 'k6/http';
 import { URL } from 'https://jslib.k6.io/url/1.0.0/index.js';
-
+import { Trend } from 'k6/metrics';
 
 // Default option
 export const options = {
     vus: 10,
     duration: '10s',
 };
+
+const resultsNumber = new Trend('results_number');
 
 const signalhub_url = __ENV.URL;
 
@@ -29,7 +31,8 @@ async function test_case() {
     url.searchParams.append('lastSignalId', number);
 
     const response = http.get(url.toString());
-    // console.log(response);
+    // console.log(JSON.parse(response.body).length);
+    resultsNumber.add(JSON.parse(response.body).length);
 }
 
 export default function () {

@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface QueueListenerService {
 
-    Mono<SignalEntity> signalListener(SignalEntity data);
+    Mono<SignalEntity> saveSignalToDb(SignalEntity data);
 
+    Mono<Signal> saveSignalToDynamoDb(Signal data);
 }

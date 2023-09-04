@@ -18,3 +18,4 @@ k6 run pull_test.js -u500 -d10s -e URL=http://internal-signalhub-lb-368682252.eu
 kubectl -n dev port-forward service/postgres 5432:5432
 kubectl -n dev rollout restart deployment/signalhub-deployment
 kubectl -n dev exec -it postgres-7f8f6cb5f7-dz6np -- bash
+kubectl -n dev top pod postgres-5b4cc79465-4nr7d

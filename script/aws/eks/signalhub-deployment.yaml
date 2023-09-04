@@ -41,7 +41,9 @@ spec:
             - name: DATABASE_PORT
               value: 5432
             - name: AWS_DYNAMODB_SIGNAL_TABLE
-              value: Signal-test
+              value: Signal
+            - name: AWS_DYNAMODB_INDEX_SIGNAL_COUNTER_TABLE
+              value: IndexSignalCounter
             - name: AWS_POD_NAME_MS
               valueFrom:
                 fieldRef:

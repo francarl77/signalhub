@@ -6,11 +6,13 @@ import it.pagopa.interop.performancetest.configs.aws.async.AwsConfigs;
 import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.entity.SignalEntity;
 import it.pagopa.interop.performancetest.mapper.SignalMapper;
+import it.pagopa.interop.performancetest.middleware.db.dao.SignalDAO;
 import it.pagopa.interop.performancetest.middleware.sqs.producer.QueueProducer;
 import it.pagopa.interop.performancetest.repository.SignalRepository;
 import it.pagopa.interop.performancetest.service.SignalService;
 import it.pagopa.interop.performancetest.utils.Utility;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.support.GenericMessage;
@@ -22,8 +24,8 @@ import java.math.BigInteger;
 
 @Slf4j
 @Service
-@Qualifier("relational")
-public class SignalRelationalService implements SignalService {
+@Qualifier("dynamodb")
+public class SignalDynamoDbServiceImpl implements SignalService {
 
     @Autowired
     private QueueProducer queueProducer;
@@ -32,27 +34,21 @@ public class SignalRelationalService implements SignalService {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private SignalRepository signalRepository;
-
-    @Autowired
     private AwsConfigs config;
 
-    @Override
-    public Mono<SignalDTO> pushSignal(SignalDTO signal) {
-        this.queueProducer.send(SignalMapper.toSignalEntity(signal));
-        return Mono.just(SignalMapper.toDTO(SignalMapper.toSignalEntity(signal)));
-    }
+    @Autowired
+    private SignalDAO signalDAO;
 
     @Override
-    public Mono<SignalEntity> pushSignalAsync(SignalDTO signal) {
-        return this.queueProducer.sendAsync(SignalMapper.toSignalEntity(signal))
-                .map(s -> Utility.jsonToObject(objectMapper, (((GenericMessage)s.message()).getPayload()).toString(), SignalEntity.class));
+    public Mono<SignalDTO> pushSignalAsync(SignalDTO signal) {
+        signal.setDynamodb(true);
+        signal.setIndexSignal(BigInteger.valueOf(1));
+        return this.queueProducer.sendAsync(signal)
+                .map(s -> Utility.jsonToObject(objectMapper, (((GenericMessage)s.message()).getPayload()).toString(), SignalDTO.class));
     }
 
     @Override
     public Flux<SignalDTO> pullSignal(Long lastSignalId, String eserviceId, String signalType, String objectType) {
-        return signalRepository.findByEserviceIdAndSignalIdGreaterThan(eserviceId, BigInteger.valueOf(lastSignalId))
-                .take(config.getPullLimit())
-                .map(s -> SignalMapper.toDTO(s));
+        return signalDAO.pullSignal(lastSignalId, eserviceId).map(SignalMapper::dynamoToDTO);
     }
 }

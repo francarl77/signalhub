@@ -9,7 +9,6 @@ import java.math.BigInteger;
 
 public interface SignalService {
 
-    Mono<SignalDTO> pushSignal(SignalDTO signal);
-    Mono<SignalEntity> pushSignalAsync(SignalDTO signal);
+    Mono<SignalDTO> pushSignalAsync(SignalDTO signal);
     Flux<SignalDTO> pullSignal(Long lastSignalId, String eserviceId, String signalType, String objectType);
 }

@@ -15,9 +15,11 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 @Repository
 public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
 
+    private AwsConfigs props;
 
     public SignalDaoImpl(DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient, DynamoDbAsyncClient dynamoDbAsyncClient, AwsConfigs awsConfigs) {
         super(dynamoDbEnhancedAsyncClient, dynamoDbAsyncClient, awsConfigs.getDynamodbSignalTable(), Signal.class);
+        this.props = awsConfigs;
     }
 
     @Override
@@ -26,20 +28,9 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
     }
 
     @Override
-    public Flux<Signal> pullSignal(Long indexSignal, String eserviceId, String signalType, String objectType) {
-        QueryConditional conditional = CONDITION_GREATHER_THAN_EQUAL_TO.apply(keyBuild(eserviceId,indexSignal));
+    public Flux<Signal> pullSignal(Long lastSignalId, String eserviceId) {
+        QueryConditional conditional = CONDITION_GREATHER_THAN_EQUAL_TO.apply(keyBuild(eserviceId, lastSignalId));
 
-        return this.getByFilter(conditional,null, null,null);
+        return this.getByFilter(conditional,null, null,null, props.getPullLimit().intValue());
     }
-
-    @Override
-    public Flux<Signal> pullEqualToSignal(Long indexSignal, String eserviceId, String signalType, String objectType) {
-        QueryConditional conditional = CONDITION_EQUAL_TO.apply(keyBuild(eserviceId,(Long)null));
-
-        return this.getByFilter(conditional,null, null,null)
-                .parallel()
-                .filter(item -> item.getIndexSignal() >= indexSignal)
-                .sequential();
-    }
-
 }

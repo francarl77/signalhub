@@ -29,14 +29,14 @@ public class Signal {
     @Getter(onMethod = @__({@DynamoDbPartitionKey, @DynamoDbAttribute(COL_ESERVICEID)}))
     private String eserviceId;
 
-    @Getter(onMethod = @__({@DynamoDbSortKey, @DynamoDbAttribute(COL_INDEX_SIGNAL)}))
+    @Getter(onMethod = @__({@DynamoDbSortKey, @DynamoDbAttribute(COL_SIGNALID)}))
+    private Long signalId;
+
+    @Getter(onMethod = @__({@DynamoDbAttribute(COL_INDEX_SIGNAL)}))
     private Long indexSignal;
 
     @Getter(onMethod = @__({@DynamoDbAttribute(COL_OBJECTID)}))
     private String objectId;
-
-    @Getter(onMethod = @__({@DynamoDbAttribute(COL_SIGNALID)}))
-    private String signalId;
 
     @Getter(onMethod = @__({@DynamoDbAttribute(COL_OBJECT_TYPE)}))
     private String objectType;

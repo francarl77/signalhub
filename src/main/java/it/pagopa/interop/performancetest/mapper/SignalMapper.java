@@ -4,6 +4,7 @@ import it.pagopa.interop.performancetest.entity.SignalEntity;
 import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
 import it.pagopa.interop.performancetest.dto.SignalDTO;
 
+import java.math.BigInteger;
 import java.util.UUID;
 
 
@@ -16,7 +17,6 @@ public class SignalMapper {
         signal.setObjectId(signalDTO.getObjectId());
         signal.setObjectType(signalDTO.getObjectType());
         signal.setSignalType(signalDTO.getSignalType());
-
         return signal;
     }
 
@@ -32,5 +32,33 @@ public class SignalMapper {
         signalDTO.setSignalType(signal.getSignalType());
 
         return signalDTO;
+    }
+
+    public static SignalDTO dynamoToDTO(Signal signal) {
+        SignalDTO signalDTO = new SignalDTO();
+
+        signalDTO.setSignalId(BigInteger.valueOf(signal.getSignalId()));
+        signalDTO.setIndexSignal(BigInteger.valueOf(signal.getIndexSignal()));
+        signalDTO.setEserviceId(signal.getEserviceId());
+        signalDTO.setObjectId(signal.getObjectId());
+        signalDTO.setObjectType(signal.getObjectType());
+        signalDTO.setTmsInsert(signal.getTmsInsert());
+        signalDTO.setSignalType(signal.getSignalType());
+
+        return signalDTO;
+    }
+
+    public static Signal dynamoToSignal(SignalDTO signalDTO) {
+        Signal signal = new Signal();
+
+        signal.setSignalId(signalDTO.getSignalId().longValue());
+        signal.setIndexSignal(signalDTO.getIndexSignal().longValue());
+        signal.setEserviceId(signalDTO.getEserviceId());
+        signal.setObjectId(signalDTO.getObjectId());
+        signal.setObjectType(signalDTO.getObjectType());
+        signal.setTmsInsert(signalDTO.getTmsInsert());
+        signal.setSignalType(signalDTO.getSignalType());
+
+        return signal;
     }
 }

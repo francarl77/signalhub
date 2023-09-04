@@ -3,6 +3,7 @@ package it.pagopa.interop.performancetest.middleware.sqs.producer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.operations.SendResult;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
+import it.pagopa.interop.performancetest.dto.SignalDTO;
 import it.pagopa.interop.performancetest.entity.SignalEntity;
 import it.pagopa.interop.performancetest.middleware.db.entities.Signal;
 import it.pagopa.interop.performancetest.utils.Utility;
@@ -24,20 +25,13 @@ public class QueueProducer {
         this.sqsTemplate = sqsTemplate;
     }
 
-    public Mono<SendResult<Message<String>>> sendAsync(SignalEntity message) {
+    public Mono<SendResult<Message<String>>> sendAsync(SignalDTO message) {
         return Mono.fromFuture(this.sqsTemplate.sendAsync(
                 MessageBuilder.withPayload(convertToJson(message)).build()
         ));
     }
 
-    public void send(SignalEntity message) {
-        this.sqsTemplate.send(
-                MessageBuilder.withPayload(convertToJson(message)).build()
-        );
-    }
-
-
-    private String convertToJson(SignalEntity body){
+    private String convertToJson(SignalDTO body){
         return Utility.objectToJson(this.objectMapper, body);
     }
 

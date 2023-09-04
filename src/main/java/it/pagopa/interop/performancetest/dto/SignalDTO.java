@@ -15,5 +15,6 @@ public class SignalDTO {
     private String objectType;
     private String signalType;
     private Instant tmsInsert;
+    private boolean dynamodb = false;
 
 }

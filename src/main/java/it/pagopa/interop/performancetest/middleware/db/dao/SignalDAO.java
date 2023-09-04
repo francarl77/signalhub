@@ -7,6 +7,5 @@ import reactor.core.publisher.Mono;
 public interface SignalDAO {
 
     Mono<Signal> pushSignal(Signal signal);
-    Flux<Signal> pullSignal(Long indexSignal, String eserviceId, String signalType, String objectType);
-    Flux<Signal> pullEqualToSignal(Long indexSignal, String eserviceId, String signalType, String objectType);
+    Flux<Signal> pullSignal(Long lastSignalId, String eserviceId);
 }
