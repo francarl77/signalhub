@@ -15,11 +15,8 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 @Repository
 public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
 
-    private AwsConfigs props;
-
     public SignalDaoImpl(DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient, DynamoDbAsyncClient dynamoDbAsyncClient, AwsConfigs awsConfigs) {
         super(dynamoDbEnhancedAsyncClient, dynamoDbAsyncClient, awsConfigs.getDynamodbSignalTable(), Signal.class);
-        this.props = awsConfigs;
     }
 
     @Override
@@ -31,6 +28,6 @@ public class SignalDaoImpl extends BaseDAO<Signal> implements SignalDAO {
     public Flux<Signal> pullSignal(Long lastSignalId, String eserviceId) {
         QueryConditional conditional = CONDITION_GREATHER_THAN_EQUAL_TO.apply(keyBuild(eserviceId, lastSignalId));
 
-        return this.getByFilter(conditional,null, null,null, props.getPullLimit().intValue());
+        return this.getByFilter(conditional,null, null,null);
     }
 }

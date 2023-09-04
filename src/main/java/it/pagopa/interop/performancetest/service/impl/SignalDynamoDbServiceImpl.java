@@ -49,6 +49,8 @@ public class SignalDynamoDbServiceImpl implements SignalService {
 
     @Override
     public Flux<SignalDTO> pullSignal(Long lastSignalId, String eserviceId, String signalType, String objectType) {
-        return signalDAO.pullSignal(lastSignalId, eserviceId).map(SignalMapper::dynamoToDTO);
+        return signalDAO.pullSignal(lastSignalId, eserviceId)
+                .take(config.getPullLimit())
+                .map(SignalMapper::dynamoToDTO);
     }
 }
