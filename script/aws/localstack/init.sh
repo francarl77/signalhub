@@ -29,3 +29,5 @@ aws --profile default --region us-east-1 --endpoint-url http://localstack:4566 \
         AttributeName=eserviceId,KeyType=HASH \
     --provisioned-throughput \
         ReadCapacityUnits=10,WriteCapacityUnits=5
+
+aws --profile interop-dev dynamodb scan --table-name Signal --select "COUNT"

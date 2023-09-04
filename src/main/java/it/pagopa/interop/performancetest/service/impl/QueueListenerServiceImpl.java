@@ -32,7 +32,9 @@ public class QueueListenerServiceImpl implements QueueListenerService {
 
     @Override
     public Mono<Signal> saveSignalToDynamoDb(Signal data) {
-        return signalDAO.pushSignal(data);
+        return signalDAO.pushSignal(data)
+                .doOnSuccess(entity -> log.info("Signal saved on dynamodb"))
+                .doOnError(ex -> log.error("Save signal on dynamodb in error {}", ex.getMessage(), ex));
     }
 
 

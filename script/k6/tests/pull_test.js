@@ -32,7 +32,9 @@ async function test_case() {
 
     const response = http.get(url.toString());
     // console.log(JSON.parse(response.body).length);
-    resultsNumber.add(JSON.parse(response.body).length);
+    if (response && response.body) {
+        resultsNumber.add(JSON.parse(response.body).length);
+    }
 }
 
 export default function () {
