@@ -43,17 +43,9 @@ public class SignalDynamoDbController {
             @RequestParam(value= "lastSignalId", required= true) Long lastSignalId
             ) {
 
-        return Mono.just(this.signalServiceImpl.pullSignal(lastSignalId, eserviceId,null,null).map(item -> item)).map(ResponseEntity::ok);
+        return Mono.fromSupplier(() -> {
+            Flux<SignalDTO> results = this.signalServiceImpl.pullSignal(lastSignalId, eserviceId,null,null);
+            return ResponseEntity.ok(results);
+        });
     }
-
-    @GetMapping(value = "/signal-pull")
-    public Mono<ResponseEntity<Flux<SignalDTO>>>pullEqualToSignal(
-            @RequestParam(value="eserviceId", required= true) String eserviceId,
-            @RequestParam(value="indexSignal", required= true) Long indexSignal
-    ) {
-
-        return Mono.just(this.signalServiceImpl.pullSignal(indexSignal, eserviceId,null,null).map(item -> item)).map(ResponseEntity::ok);
-    }
-
-
 }
